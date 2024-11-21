@@ -1,0 +1,7 @@
+name = "AStarGridSearch"
+uuid = "892abc44-b326-442a-ba8e-5eb8be33ac6f"
+authors = ["Nicholas Harrison"]
+version = "0.1.0"
+
+[compat]
+julia = "1.10"
