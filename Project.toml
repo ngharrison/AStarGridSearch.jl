@@ -3,5 +3,13 @@ uuid = "892abc44-b326-442a-ba8e-5eb8be33ac6f"
 authors = ["Nicholas Harrison"]
 version = "0.1.0"
 
+[deps]
+DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
+DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+
 [compat]
+DataStructures = "0.18"
+DocStringExtensions = "0.9"
+LinearAlgebra = "1"
 julia = "1.10"
