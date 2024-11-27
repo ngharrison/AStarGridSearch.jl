@@ -1,11 +1,3 @@
-"""
-This module contains types and functions for searching for paths on a 2D grid
-using A*. Its main use is to get the path cost (distance), but it can return the
-full path as well.
-
-Main public types and functions:
-$(EXPORTS)
-"""
 module AStarGridSearch
 
 using LinearAlgebra: norm
@@ -53,8 +45,11 @@ Inputs:
 - `heuristic`: function to compute estimated distance from current to goal cell
   (default weightedEuclidian)
 
-Note: this type and associated methods can in fact be used with any
-N-dimensional cost array, not just a matrix.
+Note: this type and associated methods (except for [`finalOrientation`](@ref))
+can in fact be used with any N-dimensional cost array, not just a matrix.
+
+The parameters `dist` and `heuristic` can be passed any functions to compute distances as long as
+they take as input a current cell, a goal cell, and a cell resolution.
 """
 function PathCost(start, occupancy, resolution;
                   diagonals=true, dist=weightedEuclidian, heuristic=weightedEuclidian)
@@ -121,8 +116,25 @@ function (S::PathCost)(goal)
     return Inf
 end
 
+"""
+$(TYPEDSIGNATURES)
+
+A function to calculate the euclidean distance between two cells based on a
+weighting along each dimension. In mathematical terms:
+```math
+\\left\\lVert w \\circ (x_2 - x_1) \\right\\rVert_2
+```
+where ``x_1`` and ``x_2`` are the cells, ``w`` is the dimension weights, and
+``\\circ`` is a Hadamard or element-wise product.
+"""
 weightedEuclidian(x1, x2, weights) = norm(Tuple(x2 - x1) .* weights)
 
+"""
+$(TYPEDSIGNATURES)
+
+A function used internally to find what the previous step was in order to arrive
+at the current cell in the cost matrix.
+"""
 function previousStep(current, costMatrix)
     min_val = Inf
     min_dif = CartesianIndex(0,0)
@@ -143,13 +155,13 @@ end
 """
 $(TYPEDSIGNATURES)
 
-Given a PathCost and a goal point, this function returns the angle of the
-direction from penultimate cell to goal cell, effectively the direction at the
-end of the path to the goal.
+Given a PathCost and a goal point, this function returns the angle in radians of
+the direction from penultimate cell to goal cell, effectively the direction at
+the end of the path to the goal.
 """
 function finalOrientation(S::PathCost, goal)
     # start with the ending cell
-    S.costMatrix[goal] |> isnan && error("a path has not yet been searched for this cell")
+    S.costMatrix[goal] |> isnan && error("a path has not yet been searched for this cell, call the pathCost object with the goal first")
     S.costMatrix[goal] |> isinf && error("this cell is unreachable")
 
     # get the step from the neighbor with the minimum cost, ignore NaNs
@@ -168,7 +180,7 @@ object is called with the goal cell.
 """
 function getPath(S::PathCost, goal)
     # start with the ending cell
-    S.costMatrix[goal] |> isnan && error("a path has not yet been searched for this cell")
+    S.costMatrix[goal] |> isnan && error("a path has not yet been searched for this cell, call the pathCost object first")
     S.costMatrix[goal] |> isinf && error("this cell is unreachable")
 
     cell = goal
