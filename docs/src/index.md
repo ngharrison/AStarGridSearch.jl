@@ -6,7 +6,7 @@ CurrentModule = AStarGridSearch
 
 ## Quick Intro
 
-This package contains types and methods for searching for paths on a 2D grid using the A* algorithm. Its main use is to get the path cost (distance), but it can return the full path as well. The PathCost type is set up in such a way that it can be used as a cost function for optimization routines. A PathCost is created for a set start cell, and searches for multiple goal cells can be performed while keeping the same cost map between them, reducing computation.
+This package contains types and methods for searching for paths on a 2D grid using the A* algorithm. Its main use is to get the path cost (distance), but it can return the full path as well. The PathCost type is set up in such a way that it can be used as a cost function for optimization routines. A PathCost is created for a set start cell; searches for multiple goal cells can be performed while keeping the same cost map between them. This means distances to intermediate cells don't need to be re-computed each time.
 
 Following is a quick example of the main functionality of this package.
 
@@ -34,6 +34,7 @@ goal = CartesianIndex(7, 9);
 pathCost(goal) # calculate distance to goal; must be called before other methods
 getPath(pathCost, goal) # full path from start to goal if it exists
 finalOrientation(pathCost, goal) # angle in radians between the last two cells
+pathCost(CartesianIndex(8, 10)) # repeated calls with other goals will compute much faster
 ```
 
 ## Further Info
