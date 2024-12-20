@@ -34,7 +34,8 @@ goal = CartesianIndex(7, 9);
 pathCost(goal) # calculate distance to goal; must be called before other methods
 getPath(pathCost, goal) # full path from start to goal if it exists
 finalOrientation(pathCost, goal) # angle in radians between the last two cells
-pathCost(CartesianIndex(8, 10)) # repeated calls with other goals will compute much faster
+pathCost(goal) # returns saved value, no new computations
+pathCost(CartesianIndex(4, 9)) # run with new goal; computes quicker due to saved costs
 ```
 
 ## Further Info
