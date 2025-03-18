@@ -38,6 +38,14 @@ pathCost(goal) # returns saved value, no new computations
 pathCost(CartesianIndex(4, 9)) # run with new goal; computes quicker due to saved costs
 ```
 
+Here are examples of the resulting paths and cost maps from the algorithm. The code that generated these can be found in the scripts directory of the repo:
+
+![](img/blocks_paths.png)
+
+![](img/field_paths.png)
+
+![](img/full_field_paths.png)
+
 ## Further Info
 
 See below for further details on each type and method.
